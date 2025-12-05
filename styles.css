@@ -1,0 +1,105 @@
+.container {
+  width: 70%;
+  margin: auto;
+  text-align: center;
+  padding-top: 30px;
+}
+
+.dice {
+  text-align: center;
+  display: inline-block;
+  margin: 10px 30px;
+}
+
+body {
+  background-color: #393E46;
+}
+
+h1 {
+  margin: 30px;
+  font-family: "Montserrat", sans-serif;
+  text-shadow: 5px 0 #232931;
+  font-size: 4.2rem;
+  color: #4ECCA3;
+}
+
+p {
+  font-size: 2rem;
+  color: #4ECCA3;
+  font-family: "Montserrat", cursive;
+  margin-bottom: 10px;
+}
+
+img {
+  width: 220px;
+  max-width: 80%;
+  height: auto;
+  background-color: #8b0000;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.2);
+  display: block;
+  margin: 0 auto;
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+#rollBtn {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+}
+
+#rollBtn[disabled] {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Title + flag positioning */
+.title-wrap {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+/* Flag base: hidden by default */
+#flag {
+  position: absolute;
+  top: 6px;
+  width: 44px;
+  height: 44px;
+  transition: transform 220ms ease, left 220ms ease, right 220ms ease, opacity 220ms ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* flag shown on left (near Player 1) */
+.flag-left {
+  left: -62px;
+  right: auto;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* flag shown on right (near Player 2) */
+.flag-right {
+  right: -62px;
+  left: auto;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* hidden state */
+.flag-hidden {
+  opacity: 0;
+  left: auto;
+  right: auto;
+  transform: translateX(0);
+}

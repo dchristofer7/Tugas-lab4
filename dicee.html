@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dicee</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h1 id="title">Roll Me</h1>
+
+      <div class="dice">
+        <p>Player 1</p>
+        <img class="img1" id="img1" src="images/dice1.png" alt="Dice 1" />
+      </div>
+
+      <div class="dice">
+        <p>Player 2</p>
+        <img class="img2" id="img2" src="images/dice1.png" alt="Dice 2" />
+      </div>
+
+      <div class="controls">
+        <button id="rollBtn">Roll Dice</button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const btn = document.getElementById('rollBtn');
+        const img1 = document.getElementById('img1');
+        const img2 = document.getElementById('img2');
+        const title = document.getElementById('title');
+
+        const imagesPath = (n) => 'images/dice' + n + '.png';
+
+        function randFace() {
+          return Math.floor(Math.random() * 6) + 1;
+        }
+
+        function setDiceImages(a, b) {
+          img1.src = imagesPath(a);
+          img2.src = imagesPath(b);
+        }
+
+        function updateTitleDuringRolling(a, b) {
+          if (a > b) {
+            title.textContent = 'Player 1 Leads';
+          } else if (b > a) {
+            title.textContent = 'Player 2 Leads';
+          } else {
+            title.textContent = 'Draw';
+          }
+        }
+
+        btn.addEventListener('click', async () => {
+          btn.disabled = true;
+
+          // Parameters you can tweak:
+          const steps = 12;       // number of intermediate changes while "rolling"
+          const minTick = 120;    // initial delay between changes (ms) - smaller = faster start
+          const maxTick = 380;    // final delay between changes (ms) - larger = slower end
+
+          // start rolling sequence with increasing delays (feels like slowing down)
+          for (let i = 0; i < steps; i++) {
+            // compute delay that increases over iterations
+            const t = i / (steps - 1);
+            const delay = Math.round(minTick + (maxTick - minTick) * t);
+
+            await new Promise((resolve) => setTimeout(resolve, delay));
+
+            // pick temporary faces and update UI
+            const temp1 = randFace();
+            const temp2 = randFace();
+            setDiceImages(temp1, temp2);
+            updateTitleDuringRolling(temp1, temp2); // update title to reflect current leader
+          }
+
+          // small pause then final result
+          await new Promise((r) => setTimeout(r, 180));
+
+          const final1 = randFace();
+          const final2 = randFace();
+          setDiceImages(final1, final2);
+
+          if (final1 > final2) {
+            title.textContent = 'Player 1 Wins!';
+          } else if (final2 > final1) {
+            title.textContent = 'Player 2 Wins!';
+          } else {
+            title.textContent = 'Draw!';
+          }
+
+          btn.disabled = false;
+        });
+
+        // initialize random dice on load
+        document.addEventListener('DOMContentLoaded', () => {
+          setDiceImages(randFace(), randFace());
+        });
+      })();
+    </script>
+  </body>
+</html>
